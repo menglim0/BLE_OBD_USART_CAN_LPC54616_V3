@@ -266,25 +266,8 @@ void vBLE_Command_Mode_Action(TeOBD_Control_MODE cmdMode);
     __DSB();
 #endif
 }
-// 
-struct _can_timing_config timingConfig_500K_5M=
-{
-	
-	.preDivider=0x03,		     /*!< Global Clock Division Factor. 90M*/
-	.nominalPrescaler=0x6,  /*!< Nominal clock prescaler.5M */
-    .nominalRJumpwidth=4, /*!< Nominal Re-sync Jump Width. */
-    .nominalPhaseSeg1=0xF,  /*!< Nominal Phase Segment 1. */
-    .nominalPhaseSeg2=0x04,  /*!< Nominal Phase Segment 2. */
-    .nominalPropSeg=0,    /*!< Nominal Propagation Segment. */
-#ifdef USE_FD
-    .dataPrescaler=1,    /*!< Data clock prescaler. 60M*/
-    .dataRJumpwidth=3,    /*!< Data Re-sync Jump Width. */
-    .dataPhaseSeg1=0x8,     /*!< Data Phase Segment 1. */
-    .dataPhaseSeg2=3,     /*!< Data Phase Segment 2. */
-    .dataPropSeg=0,       /*!< Data Propagation Segment. */
-#endif
 
-};
+
 /*!
  * @brief Keeps track of time
  */
@@ -315,22 +298,16 @@ int main(void)
 	/* attach 12 MHz clock to FLEXCOMM0 (debug console) */
     CLOCK_AttachClk(BOARD_DEBUG_UART_CLK_ATTACH);
 		
-    BOARD_InitPins();
-		//BOARD_BootClockFROHF48M();
-	BOARD_BootClockPLL180M();
-  	BOARD_InitDebugConsole();
-	BOARD_InitCAN();
-	BOARD_InitGPIO();
-	BOARD_InitUSART();
+		BOARD_Init();
     /* print a note to terminal */
   //  PRINTF("\r\n CAN-FD \n");
    
     /* Enable SysTick Timer */
     SysTick_Config(SystemCoreClock / TICKRATE_HZ);	
  		
-	xTaskCreate(vTouchTask,"Touch Task",TOUCHTASK_STACKSIZE,NULL,TOUCHTASK_PRIORITY,&xTouchTaskHandle);
-	xTaskCreate(vLcdTask,"LCD Task",LCDTASK_STACKSIZE,NULL,LCDTASK_PRIORITY,&xLcdTaskHandle);
-	vTaskStartScheduler();
+  	xTaskCreate(vTouchTask,"Touch Task",TOUCHTASK_STACKSIZE,NULL,TOUCHTASK_PRIORITY,&xTouchTaskHandle);
+	  xTaskCreate(vLcdTask,"LCD Task",LCDTASK_STACKSIZE,NULL,LCDTASK_PRIORITY,&xLcdTaskHandle);
+	  vTaskStartScheduler();
 		
 	while(1)
 	{
@@ -388,7 +365,7 @@ CAN_Type *base_Channel;
 	
 		}
 		
-		
+			CAN0_ResH_TOGGLE();  
 		
 		vTaskDelay(TOUCH_DELAY);
 	}
@@ -434,7 +411,7 @@ static void vLcdTask(void *pvParameters)
 
 	
 
-	
+    
 				
 			//uint8_t Fifo_Rxed_index;
 //			for(Fifo_Rxed_index=0;Fifo_Rxed_index<8;Fifo_Rxed_index++)
@@ -494,7 +471,7 @@ static void vLcdTask(void *pvParameters)
 					USART_WriteBlocking(DEMO_USART,Usart_Received_Feedback_1,14);
 						USART_Sending_Block_Cnt=0;
 					}
-					//PRINTF("Rx buf 0: Received message 0x%3.3X\r", Rx_frame_Mask_temp.id);
+//PRINTF("Rx buf 0: Received message 0x%3.3X\r", Rx_frame_Mask_temp.id);
 //					if(Rx_frame_Mask_temp.id==0x4C9)
 //					{GPIO_TogglePinsOutput(GPIO, BOARD_LED2_GPIO_PORT, 1u << BOARD_LED2_GPIO_PIN);}
 //					
@@ -611,7 +588,8 @@ void vTask_UsartReceive_UnPack()
 	
 	uint16_t Receive_ID1=0,Receive_ID2=0,Receive_ID3=0;
 	TeCAN_Config BLE_Config_CAN_init;
-	TeCANFD_Config BLE_Config_CANFD_init;	
+	TeCANFD_Config BLE_Config_CANFD_init;
+	
 	uint8_t CAN_Config_Channel;
 	
 	/*0xEA config the init data*/
@@ -621,9 +599,13 @@ void vTask_UsartReceive_UnPack()
 		{
 			Usart_Config_Init[i]=demoRingBuffer_Total[i];
 		}
+		
+		BLE_Config_CAN.TRes_En=Usart_Config_Init[1]&0x01;
+		
 		BLE_Config_CAN_init=(TeCAN_Config)(Usart_Config_Init[1]>>6);
 		BLE_Config_CANFD_init= (TeCANFD_Config)((Usart_Config_Init[1]>>4)&0x03);
-		CAN_Config_Channel = Usart_Config_Init[1]>>1&0x07;
+		CAN_Config_Channel = Usart_Config_Init[1]>>1&0x07;\
+
 		Receive_ID1 = (Usart_Config_Init[4]<<8 ) + Usart_Config_Init[5];
 		Receive_ID2 = (Usart_Config_Init[8]<<8 ) + Usart_Config_Init[9];
 		Receive_ID3 = (Usart_Config_Init[12]<<8 ) + Usart_Config_Init[13];
@@ -635,7 +617,7 @@ void vTask_UsartReceive_UnPack()
 		BLE_Config_CAN.ID2=Receive_ID2;
 		BLE_Config_CAN.ID3=Receive_ID3;
 
-		
+		CAN_TerminalResitor_Enable(CAN_Config_Channel, BLE_Config_CAN.TRes_En);
 		VeUSART_Receive_State=CeUSART_Receive_Complete;
 		BLE_Receive_Command = CeOBD_Receive_Config_init;
 		

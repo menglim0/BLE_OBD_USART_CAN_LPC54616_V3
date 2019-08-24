@@ -33,7 +33,7 @@ void vControl_Loop_Run_indicator(uint16_t delayCnt)
 	if(Led_indicator_Cycle>=delayCnt)
 	{	
 		Led_indicator_Cycle=0;
-	GPIO_TogglePinsOutput(GPIO, BOARD_LED3_GPIO_PORT, 1u << BOARD_LED3_GPIO_PIN);
+	  GPIO_TogglePinsOutput(GPIO, BOARD_LED3_GPIO_PORT, 1u << BOARD_LED3_GPIO_PIN);
 	}
 }
 

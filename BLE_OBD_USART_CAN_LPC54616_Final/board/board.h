@@ -171,15 +171,15 @@
 
 #define CAN0_TRESL_EN_GPIO GPIO
 #define CAN0_TRESL_EN_GPIO_PORT 1U
-#define CAN0_TRESL_EN_GPIO_PIN 30U
+#define CAN0_TRESL_EN_GPIO_PIN 0U
 
 #define CAN1_TRESH_EN_GPIO GPIO
 #define CAN1_TRESH_EN_GPIO_PORT 0U
-#define CAN1_TRESH_EN_GPIO_PIN 22U
+#define CAN1_TRESH_EN_GPIO_PIN 15U
 
 #define CAN1_TRESL_EN_GPIO GPIO
-#define CAN1_TRESL_EN_GPIO_PORT 1U
-#define CAN1_TRESL_EN_GPIO_PIN 29U
+#define CAN1_TRESL_EN_GPIO_PORT 0U
+#define CAN1_TRESL_EN_GPIO_PIN 16U
 
 
 #define BLE_EN_NAME "BLE_EN"
@@ -227,7 +227,11 @@
 
 #define CAN0_ResH_INIT(output)                                                    \
     GPIO_PinInit(CAN0_TRESH_EN_GPIO, CAN0_TRESH_EN_GPIO_PORT, CAN0_TRESH_EN_GPIO_PIN, \
-                 &(gpio_pin_config_t){kGPIO_DigitalOutput, (output)}) /*!< Enable target LED3 */	
+                 &(gpio_pin_config_t){kGPIO_DigitalOutput, (output)}) /*!< Enable target LED3 */
+
+#define CAN0_ResH_TOGGLE()                                            \
+    GPIO_TogglePinsOutput(CAN0_TRESH_EN_GPIO, CAN0_TRESH_EN_GPIO_PORT, \
+                          1U << CAN0_TRESH_EN_GPIO_PIN) /*!< Toggle on target LED3 */								 
 
 #define CAN0_ResL_INIT(output)                                                    \
     GPIO_PinInit(CAN0_TRESL_EN_GPIO, CAN0_TRESL_EN_GPIO_PORT, CAN0_TRESL_EN_GPIO_PIN, \
@@ -257,20 +261,25 @@ extern "C" {
 #define DEMO_USART_IRQn FLEXCOMM0_IRQn
 #define DEMO_USART_IRQHandler FLEXCOMM0_IRQHandler
 	
-		extern CAN_Type *CAN_Channel;
+extern CAN_Type *CAN_Channel;
+extern bool BOARD_CANFD_ISOMode_Used;
 	
 CAN_Type * Get_CAN_Channel(void);
 
 status_t BOARD_InitDebugConsole(void);
+	
+	void BOARD_Init(void);
 void BOARD_InitSDRAM(void);
 	
 void BOARD_InitCAN(void);
 void BOARD_ReInitCAN(TeCAN_init can_init);
 
 void BOARD_InitGPIO(void);
-	
-void CAN_ResEnable(uint8_t index, bool en);
-	void BOARD_InitUSART(void);
+
+void CAN_TerminalResitor_Enable(uint8_t index, bool en);
+void BOARD_InitUSART(void);
+extern bool Get_Board_CANFD_Enable_State(void);
+void Set_Board_CANFD_Enable_State(void);
 
 #if defined(__cplusplus)
 }

@@ -601,7 +601,7 @@ void CAN_Init(CAN_Type *base, const can_config_t *config, uint32_t sourceClock_H
     timingConfig.dataPropSeg=0;       /*!< Data Propagation Segment. */
 #endif
 
-		CAN_SetTimingConfig(base, &timingConfig);
+		//CAN_SetTimingConfig(base, &timingConfig);
     /* set base address */
     base->MRBA = config->baseAddress;
 

@@ -82,11 +82,13 @@
 
 /* Clock rate on the CLKIN pin */
 const uint32_t ExtClockIn = BOARD_EXTCLKINRATE;
+bool BOARD_CANFD_ISOMode_Used;
 
-struct _can_timing_config timingConfig_5M_500K=
+// 
+struct _can_timing_config timingConfig_500K_5M=
 {
 	
-	.preDivider=0x03,		     /*!< Global Clock Division Factor. 90M*/
+	.preDivider=0x03,		     /*!< Global Clock Division Factor. 60M*/
 	.nominalPrescaler=0x6,  /*!< Nominal clock prescaler.5M */
     .nominalRJumpwidth=4, /*!< Nominal Re-sync Jump Width. */
     .nominalPhaseSeg1=0xF,  /*!< Nominal Phase Segment 1. */
@@ -101,6 +103,27 @@ struct _can_timing_config timingConfig_5M_500K=
 #endif
 
 };
+
+// 
+struct _can_timing_config timingConfig_500K_2M=
+{
+	
+	  .preDivider=0x03,		     /*!< Global Clock Division Factor. 60M*/
+	  .nominalPrescaler=0x6,  /*!< Nominal clock prescaler.5M */
+    .nominalRJumpwidth=4, /*!< Nominal Re-sync Jump Width. */
+    .nominalPhaseSeg1=0xF,  /*!< Nominal Phase Segment 1. */
+    .nominalPhaseSeg2=0x04,  /*!< Nominal Phase Segment 2. */
+    .nominalPropSeg=0,    /*!< Nominal Propagation Segment. */
+#ifdef USE_FD
+    .dataPrescaler=2,    /*!< Data clock prescaler. 60M*/
+    .dataRJumpwidth=3,    /*!< Data Re-sync Jump Width. */
+    .dataPhaseSeg1=0x0B,     /*!< Data Phase Segment 1. */
+    .dataPhaseSeg2=4,     /*!< Data Phase Segment 2. */
+    .dataPropSeg=0,       /*!< Data Propagation Segment. */
+#endif
+
+};
+
 
 
 /* Define the init structure for the output LED pin*/
@@ -118,6 +141,17 @@ return CAN_Channel;
 /*******************************************************************************
  * Code
  ******************************************************************************/
+
+void BOARD_Init(void)
+{
+    BOARD_InitPins();
+		//BOARD_BootClockFROHF48M();
+		BOARD_BootClockPLL180M();
+		BOARD_InitDebugConsole();
+		BOARD_InitCAN();
+		BOARD_InitGPIO();
+		BOARD_InitUSART();
+}
 /* Initialize debug console. */
 status_t BOARD_InitDebugConsole(void)
 {
@@ -210,9 +244,13 @@ void BOARD_ReInitCAN(TeCAN_init can_init)
 {
 
 can_config_t reconfig;
-
+can_timing_config_t timing_config_init;
 	
 	CAN_GetDefaultConfig(&reconfig);
+	
+	reconfig.baseAddress = 0x20010000;   
+	reconfig.timestampClock_Hz = 100000;
+
 	
 	if(can_init.channel==1)
 	{
@@ -222,7 +260,6 @@ can_config_t reconfig;
 	{
 		CAN_Channel = CAN1;
 	}
-
 
 	if(can_init.Classis_CAN ==CeCAN_500K)
 	{
@@ -236,16 +273,25 @@ can_config_t reconfig;
 	if(can_init.FD_CAN==CeCANFD_5M)
 	{
 	reconfig.dataBaudRate=CANBaudrate_FD_5M;
+		if(can_init.Classis_CAN==CeCAN_500K)
+		{
+			timing_config_init=timingConfig_500K_5M;
+			Set_Board_CANFD_Enable_State();
+		}
 	}
 	else if(can_init.FD_CAN==CeCANFD_2M)
 	{
-	reconfig.dataBaudRate=CANBaudrate_FD_2M;
+		reconfig.dataBaudRate=CANBaudrate_FD_2M;
+		if(can_init.Classis_CAN==CeCAN_500K)
+		{
+			timing_config_init=timingConfig_500K_2M;
+			Set_Board_CANFD_Enable_State();
+		}
+
 	}
-	reconfig.baseAddress = 0x20010000;   
-	reconfig.timestampClock_Hz = 100000;
 
 	CAN_Init(CAN_Channel, &reconfig, SystemCoreClock);	
-//	CAN_SetTimingConfig(CAN0, &timingConfig_5M_500K);
+	CAN_SetTimingConfig(CAN_Channel, &timing_config_init);
 	CAN_SetRxIndividualMask(CAN_Channel, 0, CAN_RX_MB_STD(can_init.ID1, 0));
 	CAN_SetRxIndividualMask(CAN_Channel, 1, CAN_RX_MB_STD(can_init.ID2, 0));
 	CAN_SetRxIndividualMask(CAN_Channel, 2, CAN_RX_MB_STD(can_init.ID3, 0));
@@ -278,8 +324,8 @@ void BOARD_InitGPIO(void)
 		GPIO_WritePinOutput(GPIO, BOARD_CC2540_EN_GPIO0, BOARD_CC2540_BC_GPIO_PIN,0);
 		/**/
 
-	CAN0_ResH_INIT(enbl);
-	CAN0_ResL_INIT(enbl);
+	CAN0_ResH_INIT(0);
+	CAN0_ResL_INIT(0);
 	CAN1_ResH_INIT(enbl);
 	CAN1_ResL_INIT(enbl);
 	LED1_INIT(0);
@@ -291,16 +337,16 @@ void BOARD_InitGPIO(void)
 
 
 
-void CAN_ResEnable(uint8_t index, bool en)
+void CAN_TerminalResitor_Enable(uint8_t index, bool en)
 {
 	
-if(index==0)
+if(index==1)
 {
 GPIO_WritePinOutput(CAN0_TRESH_EN_GPIO, CAN0_TRESH_EN_GPIO_PORT, CAN0_TRESH_EN_GPIO_PIN,!en);
 GPIO_WritePinOutput(CAN0_TRESL_EN_GPIO, CAN0_TRESL_EN_GPIO_PORT, CAN0_TRESL_EN_GPIO_PIN,!en);
 }
 
-if(index==1)
+if(index==2)
 {
 GPIO_WritePinOutput(CAN1_TRESH_EN_GPIO, CAN1_TRESH_EN_GPIO_PORT, CAN1_TRESH_EN_GPIO_PIN,!en);
 GPIO_WritePinOutput(CAN1_TRESL_EN_GPIO, CAN1_TRESL_EN_GPIO_PORT, CAN1_TRESL_EN_GPIO_PIN,!en);
@@ -321,3 +367,15 @@ void BOARD_InitUSART(void)
     EnableIRQ(DEMO_USART_IRQn);
     
 }
+
+bool Get_Board_CANFD_Enable_State(void)
+{
+	return BOARD_CANFD_ISOMode_Used;
+}
+
+void Set_Board_CANFD_Enable_State(void)
+{
+	BOARD_CANFD_ISOMode_Used=true;
+}
+
+

@@ -269,7 +269,7 @@ uint32_t obd_can_RxMSG_UnPack(uint8_t x[])
 
 uint16_t obd_can_TxMSG_Multiframe(TeOBD_Receive_Cmd cmd,uint8_t x[10][14],uint8_t Sending_Index)
 {
-	uint16_t KeepAlive_Count;
+uint8_t KeepAlive_Count;
 	bool Send_complete=false;
 	can_frame_t tx_frame1;
 		

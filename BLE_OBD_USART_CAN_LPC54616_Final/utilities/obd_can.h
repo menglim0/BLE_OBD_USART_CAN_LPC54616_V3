@@ -68,6 +68,7 @@ typedef struct CAN_init
 {
 	TeCAN_Config Classis_CAN; 
 	TeCANFD_Config FD_CAN;
+	bool TRes_En;
 	uint8_t channel;
 	int16_t ID1;
 	int16_t ID2;	
