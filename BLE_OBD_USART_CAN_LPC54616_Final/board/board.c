@@ -83,6 +83,26 @@
 /* Clock rate on the CLKIN pin */
 const uint32_t ExtClockIn = BOARD_EXTCLKINRATE;
 bool BOARD_CANFD_ISOMode_Used;
+// 
+struct _can_timing_config timingConfig_125K_5M=
+{
+	
+	.preDivider=0x0C,		     /*!< Global Clock Division Factor. 60M*/
+	.nominalPrescaler=0x6,  /*!< Nominal clock prescaler.5M */
+    .nominalRJumpwidth=4, /*!< Nominal Re-sync Jump Width. */
+    .nominalPhaseSeg1=0xF,  /*!< Nominal Phase Segment 1. */
+    .nominalPhaseSeg2=0x04,  /*!< Nominal Phase Segment 2. */
+    .nominalPropSeg=0,    /*!< Nominal Propagation Segment. */
+#ifdef USE_FD
+    .dataPrescaler=1,    /*!< Data clock prescaler. 60M*/
+    .dataRJumpwidth=3,    /*!< Data Re-sync Jump Width. */
+    .dataPhaseSeg1=0x8,     /*!< Data Phase Segment 1. */
+    .dataPhaseSeg2=3,     /*!< Data Phase Segment 2. */
+    .dataPropSeg=0,       /*!< Data Propagation Segment. */
+#endif
+
+};
+
 
 // 
 struct _can_timing_config timingConfig_500K_5M=
@@ -116,9 +136,9 @@ struct _can_timing_config timingConfig_500K_2M=
     .nominalPropSeg=0,    /*!< Nominal Propagation Segment. */
 #ifdef USE_FD
     .dataPrescaler=2,    /*!< Data clock prescaler. 60M*/
-    .dataRJumpwidth=3,    /*!< Data Re-sync Jump Width. */
+    .dataRJumpwidth=1,    /*!< Data Re-sync Jump Width. */
     .dataPhaseSeg1=0x0B,     /*!< Data Phase Segment 1. */
-    .dataPhaseSeg2=4,     /*!< Data Phase Segment 2. */
+    .dataPhaseSeg2=3,     /*!< Data Phase Segment 2. */
     .dataPropSeg=0,       /*!< Data Propagation Segment. */
 #endif
 
@@ -131,7 +151,7 @@ gpio_pin_config_t led_config = {
 		kGPIO_DigitalOutput, 0,
 };
 
-CAN_Type *CAN_Channel;
+CAN_Type *CAN_Channel=CAN0;
 
 CAN_Type * Get_CAN_Channel(void)
 {
@@ -215,7 +235,7 @@ void BOARD_InitCAN(void)
     CAN_GetDefaultConfig(&config);
     config.baseAddress = 0x20010000;
     config.nominalBaudRate = 500000;                  // nominal bit rate is 500kbps
-    config.dataBaudRate = 5000000;                     //the data bit rate is 5Mbps
+    config.dataBaudRate = 2000000;                     //the data bit rate is 5Mbps
     config.timestampClock_Hz = 100000;
 	//config.enableNonISOMode = 1;
 	
@@ -264,10 +284,13 @@ can_timing_config_t timing_config_init;
 	if(can_init.Classis_CAN ==CeCAN_500K)
 	{
 	reconfig.nominalBaudRate=CANBaudrate_Normal_500k;
+	timing_config_init=timingConfig_500K_5M;
+		
 	}
 	else if(can_init.Classis_CAN ==CeCAN_125K)
 	{
 		reconfig.nominalBaudRate=(uint32_t)CANBaudrate_Normal_125k;
+		timing_config_init=timingConfig_125K_5M;
 	}
 	
 	if(can_init.FD_CAN==CeCANFD_5M)

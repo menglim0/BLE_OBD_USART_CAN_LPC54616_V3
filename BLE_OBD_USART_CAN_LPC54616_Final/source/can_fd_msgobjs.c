@@ -453,7 +453,7 @@ static void vLcdTask(void *pvParameters)
 			
 			//Rxmsg_TransOilTem.id = BLE_Receive_Service_ID_List[ReceiveIndex+1];
 			
-			if (CAN_ReadRxMb(CAN0,0, &Rx_frame_Mask_temp) == kStatus_Success)
+			if (CAN_ReadRxMb(CAN_Channel,0, &Rx_frame_Mask_temp) == kStatus_Success)
 				{
 					for(i=0;i<8;i++)
 					{
@@ -486,7 +486,7 @@ static void vLcdTask(void *pvParameters)
 				}
 				
 				
-				if (CAN_ReadRxMb(CAN0,1, &Rx_frame_Mask_temp) == kStatus_Success)
+				if (CAN_ReadRxMb(CAN_Channel,1, &Rx_frame_Mask_temp) == kStatus_Success)
 				{
 					for(i=0;i<8;i++)
 					{
@@ -506,7 +506,7 @@ static void vLcdTask(void *pvParameters)
 					}
 				}
 				
-				if (CAN_ReadRxMb(CAN0,2, &Rx_frame_Mask_temp) == kStatus_Success)
+				if (CAN_ReadRxMb(CAN_Channel,2, &Rx_frame_Mask_temp) == kStatus_Success)
 				{
 					for(i=0;i<8;i++)
 					{

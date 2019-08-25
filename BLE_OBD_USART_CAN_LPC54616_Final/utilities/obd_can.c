@@ -236,12 +236,23 @@ can_frame_t obd_can_TxMSG_Pack(uint8_t x[])
 {
 	can_frame_t CAN_frame;
 	
-		CAN_frame.format =kCAN_FrameFormatExtend;
+	uint32_t Proto_Temp,Bitratemode_Temp;
+	if(Get_Board_CANFD_Enable_State()==true)
+	{
+		Proto_Temp=kCAN_ProtoTypeFD;
+		Bitratemode_Temp=kCAN_BitrateModeTypeSwitch;
+	}
+	else
+	{
+		Proto_Temp=kCAN_ProtoTypeClassic;
+		Bitratemode_Temp=kCAN_BitrateModeTypeNoSwitch;
+	}
+	
+	
+	CAN_frame.format =kCAN_FrameFormatExtend;
 	CAN_frame.type = kCAN_FrameTypeData;
-	//CAN_frame.proto = kCAN_ProtoTypeClassic;
-	CAN_frame.bitratemode = kCAN_BitrateModeTypeSwitch;
-	//CAN_frame.proto = kCAN_ProtoTypeClassic;b
-	CAN_frame.proto = kCAN_ProtoTypeFD;
+	CAN_frame.bitratemode = Bitratemode_Temp;
+	CAN_frame.proto = Proto_Temp;
 	CAN_frame.length = 8;
 	
 	uint8_t ByteIndex;
