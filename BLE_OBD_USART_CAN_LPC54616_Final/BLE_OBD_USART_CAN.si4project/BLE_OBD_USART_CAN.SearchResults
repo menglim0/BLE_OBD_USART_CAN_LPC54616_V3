@@ -1,10 +1,3 @@
----- BOARD_LED3_GPIO_PORT Matches (9 in 3 files) ----
-BOARD_InitGPIO in board.c (board) :     GPIO_PinInit(GPIO, BOARD_LED3_GPIO_PORT, BOARD_LED3_GPIO_PIN, &led_config);
-BOARD_InitGPIO in board.c (board) :     GPIO_WritePinOutput(GPIO, BOARD_LED3_GPIO_PORT, BOARD_LED3_GPIO_PIN, 1);
-board.h (board) line 74 : #define BOARD_LED3_GPIO_PORT 2U
-LED3_INIT in board.h (board) :     GPIO_PinInit(BOARD_LED3_GPIO, BOARD_LED3_GPIO_PORT, BOARD_LED3_GPIO_PIN, \
-board.h (board) line 165 :     GPIO_ClearPinsOutput(BOARD_LED3_GPIO, BOARD_LED3_GPIO_PORT, 1U << BOARD_LED3_GPIO_PIN) /*!< Turn on target LED3 */
-board.h (board) line 167 :     GPIO_SetPinsOutput(BOARD_LED3_GPIO, BOARD_LED3_GPIO_PORT, 1U << BOARD_LED3_GPIO_PIN) /*!< Turn off target LED3 */
-board.h (board) line 169 :     GPIO_TogglePinsOutput(BOARD_LED3_GPIO, BOARD_LED3_GPIO_PORT, \
-can_fd_msgobjs.c (source) line 89 : #define APP_BOARD_TEST_GPIO_PORT1 BOARD_LED3_GPIO_PORT
-vTouchTask in can_fd_msgobjs.c (source) : 			GPIO_TogglePinsOutput(GPIO, BOARD_LED3_GPIO_PORT, 1u << BOARD_LED3_GPIO_PIN);
+---- LED1_INIT Matches (2 in 2 files) ----
+BOARD_InitGPIO in board.c (board) : 	LED1_INIT(0);
+board.h (board) line 194 : #define LED1_INIT(output)                                                    \

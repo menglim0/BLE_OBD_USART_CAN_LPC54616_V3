@@ -365,7 +365,7 @@ CAN_Type *base_Channel;
 	
 		}
 		
-			CAN0_ResH_TOGGLE();  
+			//CAN0_ResH_TOGGLE();  
 		
 		vTaskDelay(TOUCH_DELAY);
 	}
@@ -604,7 +604,7 @@ void vTask_UsartReceive_UnPack()
 		
 		BLE_Config_CAN_init=(TeCAN_Config)(Usart_Config_Init[1]>>6);
 		BLE_Config_CANFD_init= (TeCANFD_Config)((Usart_Config_Init[1]>>4)&0x03);
-		CAN_Config_Channel = Usart_Config_Init[1]>>1&0x07;\
+		CAN_Config_Channel = Usart_Config_Init[1]>>1&0x07;
 
 		Receive_ID1 = (Usart_Config_Init[4]<<8 ) + Usart_Config_Init[5];
 		Receive_ID2 = (Usart_Config_Init[8]<<8 ) + Usart_Config_Init[9];

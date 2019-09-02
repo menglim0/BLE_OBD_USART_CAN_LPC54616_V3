@@ -27,10 +27,15 @@ Project File Date:  05/07/2019
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 5 (build 528)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'can_fd_msgobjs Debug'
-compiling board.c...
+compiling can_fd_msgobjs.c...
+..\source\can_fd_msgobjs.c(324): warning:  #550-D: variable "base_Channel"  was set but never used
+  CAN_Type *base_Channel;
+..\source\can_fd_msgobjs.c(428): warning:  #550-D: variable "Fifo_RX_Index"  was set but never used
+  					uint8_t Fifo_RX_Index;
+..\source\can_fd_msgobjs.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=21164 RO-data=580 RW-data=564 ZI-data=13332  
-"debug\can_fd_msgobjs.out" - 0 Error(s), 0 Warning(s).
+Program Size: Code=21140 RO-data=580 RW-data=564 ZI-data=13332  
+"debug\can_fd_msgobjs.out" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 
@@ -44,7 +49,7 @@ Package Vendor: Keil
   C:\Keil_v5\ARM\PACK\Keil\LPC54000_DFP\2.6.0\Device\Include
 
 <h2>Collection of Component Files used:</h2>
-Build Time Elapsed:  00:00:02
+Build Time Elapsed:  00:00:01
 </pre>
 </body>
 </html>

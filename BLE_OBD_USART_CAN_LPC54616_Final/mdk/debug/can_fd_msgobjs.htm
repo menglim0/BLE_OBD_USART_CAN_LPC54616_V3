@@ -3,7 +3,7 @@
 <title>Static Call Graph - [debug\can_fd_msgobjs.out]</title></head>
 <body><HR>
 <H1>Static Call Graph for image debug\can_fd_msgobjs.out</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Sun Aug 25 11:23:25 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060528: Last Updated: Thu Aug 29 18:19:03 2019
 <BR><P>
 <H3>Maximum Stack Usage =        364 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -661,7 +661,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BOARD_Init
 </UL>
 
-<P><STRONG><a name="[9a]"></a>BOARD_InitGPIO</STRONG> (Thumb, 228 bytes, Stack size 32 bytes, board.o(i.BOARD_InitGPIO))
+<P><STRONG><a name="[9a]"></a>BOARD_InitGPIO</STRONG> (Thumb, 220 bytes, Stack size 32 bytes, board.o(i.BOARD_InitGPIO))
 <BR><BR>[Stack]<UL><LI>Max Depth = 44<LI>Call Chain = BOARD_InitGPIO &rArr; GPIO_PinInit
 </UL>
 <BR>[Calls]<UL><LI><a href="#[a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_PinInit
@@ -1924,8 +1924,7 @@ Local Symbols
 </UL>
 
 <P><STRONG><a name="[120]"></a>GPIO_TogglePinsOutput</STRONG> (Thumb, 10 bytes, Stack size 0 bytes, can_fd_msgobjs.o(i.GPIO_TogglePinsOutput))
-<BR><BR>[Called By]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTouchTask
-<LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vLcdTask
+<BR><BR>[Called By]<UL><LI><a href="#[83]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vLcdTask
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTask_UsartReceive_Detection
 </UL>
 
@@ -1941,11 +1940,10 @@ Local Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> can_fd_msgobjs.o(i.main)
 </UL>
-<P><STRONG><a name="[82]"></a>vTouchTask</STRONG> (Thumb, 44 bytes, Stack size 0 bytes, can_fd_msgobjs.o(i.vTouchTask))
+<P><STRONG><a name="[82]"></a>vTouchTask</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, can_fd_msgobjs.o(i.vTouchTask))
 <BR><BR>[Stack]<UL><LI>Max Depth = 364<LI>Call Chain = vTouchTask &rArr; vTask_UsartReceive_Detection &rArr; vTask_UsartReceive_UnPack &rArr; BOARD_ReInitCAN &rArr; CAN_Init &rArr; RESET_PeripheralReset &rArr; RESET_SetPeripheralReset &rArr; __aeabi_assert &rArr; DbgConsole_Printf &rArr; DbgConsole_PrintfFormattedData &rArr; DbgConsole_ConvertRadixNumToString
 </UL>
-<BR>[Calls]<UL><LI><a href="#[120]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;GPIO_TogglePinsOutput
-<LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
+<BR>[Calls]<UL><LI><a href="#[121]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 <LI><a href="#[12b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vControl_Loop_Run_indicator
 <LI><a href="#[f2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_CAN_Channel
 <LI><a href="#[129]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTask_UsartReceive_Detection

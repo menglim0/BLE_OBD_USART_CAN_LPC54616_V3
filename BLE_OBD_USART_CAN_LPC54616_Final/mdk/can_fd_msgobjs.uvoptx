@@ -155,41 +155,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>298</LineNumber>
+          <LineNumber>621</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>3330</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\board\board.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\can_fd_msgobjs\../board/board.c\298</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>293</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>3228</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\board\board.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\can_fd_msgobjs\../board/board.c\293</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
-          <LineNumber>627</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>18752</Address>
+          <Address>18732</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -198,23 +166,39 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\source\can_fd_msgobjs.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\can_fd_msgobjs\../source/can_fd_msgobjs.c\627</Expression>
+          <Expression>\\can_fd_msgobjs\../source/can_fd_msgobjs.c\621</Expression>
         </Bp>
         <Bp>
-          <Number>3</Number>
+          <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>316</LineNumber>
+          <LineNumber>369</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>0</Address>
+          <Address>5056</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>0</BreakIfRCount>
+          <BreakIfRCount>1</BreakIfRCount>
           <Filename>..\board\board.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression></Expression>
+          <Expression>\\can_fd_msgobjs\../board/board.c\369</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>626</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>18744</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\source\can_fd_msgobjs.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\can_fd_msgobjs\../source/can_fd_msgobjs.c\626</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -342,6 +326,11 @@
           <count>24</count>
           <WinNumber>1</WinNumber>
           <ItemText>can_init</ItemText>
+        </Ww>
+        <Ww>
+          <count>25</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>CAN0_TRESL_EN_GPIO_PORT</ItemText>
         </Ww>
       </WatchWindow1>
       <WatchWindow2>
@@ -1892,6 +1881,38 @@
           <Number>82</Number>
           <Type>0</Type>
           <LineNumber>627</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\source\can_fd_msgobjs.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>83</Number>
+          <Type>0</Type>
+          <LineNumber>369</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\board\board.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>84</Number>
+          <Type>0</Type>
+          <LineNumber>621</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
